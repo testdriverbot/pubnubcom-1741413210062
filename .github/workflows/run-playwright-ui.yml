@@ -52,7 +52,7 @@ jobs:
           prompt: /exit
           create-pr: true
           pr-base: main
-          pr-title: "TestDriver.ai / Generate Playwright / ${{ matrix.markdown }}"
+          pr-title: "TestDriver.ai / Generate Playwright / ${{ matrix.test }}"
           pr-branch: testdriver/regression-${{ matrix.markdown }}-${{ github.run_id }}-${{ github.run_attempt }}
           pr-test-filename: ${{matrix.markdown}}.yml
           prerun: |
@@ -112,8 +112,33 @@ jobs:
             Write-Output "Directory Contents:"
             Write-Output (Get-ChildItem)
 
-            npx playwright test testdriver/${{ matrix.test }}.yml.spec.js | Out-File -FilePath $PlaywrightLogFile -Encoding utf8
+            # Log the testdriver subdirectory contents
+            $TestDir = "testdriver"
+            if (Test-Path $TestDir) {
+                Write-Output "Contents of '$TestDir' directory:"
+                Write-Output (Get-ChildItem $TestDir)
+            } else {
+                Write-Error "'$TestDir' directory does not exist!"
+            }
+
+            # Log the test file path
+            $TestFilePath = "$TestDir/${{ matrix.test }}.yml.spec.js"
+            Write-Output "Running Playwright test with file: $TestFilePath"
+
+            if (Test-Path $TestFilePath) {
+                Write-Output "Test file exists: $TestFilePath"
+            } else {
+                Write-Error "Test file does NOT exist: $TestFilePath"
+            }
+
+            # Run Playwright test
+            npx playwright test $TestFilePath | Out-File -FilePath $PlaywrightLogFile -Encoding utf8
+
             Write-Output "Playwright test output has been written to: $PlaywrightLogFile"
+
+            if ($LASTEXITCODE -ne 0) { 
+                Write-Error "Playwright tests failed. Check $PlaywrightLogFile for details." 
+            }
 
             if ($LASTEXITCODE -ne 0) { Write-Error "Playwright tests failed. Check $PlaywrightLogFile for details." }
 
