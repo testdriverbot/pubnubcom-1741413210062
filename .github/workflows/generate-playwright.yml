@@ -63,7 +63,7 @@ jobs:
             playwright install --with-deps chromium
 
             echo "Step 4: Generating Playwright script"
-            $process = Start-Process -FilePath "npx" -ArgumentList "playwright codegen --target playwright-test -o testdriver/${{ matrix.test }}.spec.js ${{ env.WEBSITE_URL }}" -PassThru
+            $process = Start-Process -FilePath "npx" -ArgumentList "playwright codegen --target playwright-test -o testdriver/${{ matrix.test }}.spec.js ${{ vars.TESTDRIVER_WEBSITE }}" -PassThru
             Write-Output "Started Playwright with PID: $($process.Id)"
 
             echo "Step 5: Completed"
