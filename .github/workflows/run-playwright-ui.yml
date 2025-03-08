@@ -108,6 +108,11 @@ jobs:
 
             # Logging before writing to the file
             Write-Output "Writing Playwright test output to: $PlaywrightLogFile"
+
+            # Navigate to the testdriver directory
+            Write-Output "Navigating to testdriver directory"
+            Set-Location -Path (Join-Path -Path $CurrentDir -ChildPath "testdriver")
+
             npx playwright test ${{ matrix.test }}.yml.spec.js | Out-File -FilePath $PlaywrightLogFile -Encoding utf8
             Write-Output "Playwright test output has been written to: $PlaywrightLogFile"
 
