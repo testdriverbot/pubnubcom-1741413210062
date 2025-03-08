@@ -53,7 +53,7 @@ jobs:
           create-pr: true
           pr-base: ${{ inputs.base-branch }}
           pr-title: "TestDriver.ai / Generate Test / ${{ matrix.markdown }}"
-          pr-branch: testdriver/regression-${{ matrix.markdown }}-${{ github.run_id }}-${{ github.run_attempt }}
+          pr-branch: testdriver/regression-${{ matrix.markdown }}-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.test }}
           pr-test-filename: ${{matrix.markdown}}.yml
           prerun: |
             echo "Step 1: Installing Playwright globally"
