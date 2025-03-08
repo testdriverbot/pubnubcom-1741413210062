@@ -112,6 +112,17 @@ jobs:
             Write-Output "Directory Contents:"
             Write-Output (Get-ChildItem)
 
+            # Define the directory path
+            $DashcamBuildDir = "C:\actions-runner\_work\testdriver\testdriver\node_modules\dashcam-chrome\build"
+
+            # Check if the directory exists and log its contents
+            if (Test-Path $DashcamBuildDir) {
+                Write-Output "Contents of '$DashcamBuildDir' directory:"
+                Get-ChildItem -Path $DashcamBuildDir | ForEach-Object { Write-Output $_.FullName }
+            } else {
+                Write-Error "'$DashcamBuildDir' directory does not exist!"
+            }
+
             # Log the testdriver subdirectory contents
             $TestDir = "testdriver"
             if (Test-Path $TestDir) {
