@@ -60,14 +60,36 @@ jobs:
             npm install playwright -g
 
             echo "Step 2: Installing Dashcam Chrome extension"
+            npm install dashcam -g
             npm install dashcam-chrome
 
             echo "Step 3: Installing Playwright dependencies"
             playwright install --with-deps chromium
 
+            # Get the current directory
+            Write-Output "Getting the current directory..."
+            $CurrentDir = Get-Location
+            Write-Output "Current directory: $CurrentDir"
+
+            # Define the relative path to the log file
+            Write-Output "Defining the relative path to the log file..."
+            $RelativeLogPath = "testdriver/playwright.log"
+            Write-Output "Relative log path: $RelativeLogPath"
+
+            # Combine the current directory with the relative path to get the absolute path
+            Write-Output "Resolving absolute log file path..."
+            $AbsoluteLogPath = Join-Path -Path $CurrentDir -ChildPath $RelativeLogPath
+            Write-Output "Absolute log file path: $AbsoluteLogPath"
+
+            # Run the dashcam track command with the resolved path
+            Write-Output "Running dashcam track command..."
+            & dashcam track --name=playwright --type=application --pattern="$AbsoluteLogPath"
+            Write-Output "dashcam track command executed."
+
+
             echo "Step 4: Navigating to testdriver directory and running Playwright tests with custom Chromium launch"
             cd testdriver
-            npx playwright test --ui --browser=chromium --headed --ignore-default-args --disable-extensions --load-extension="$(pwd)/node_modules/dashcam-chrome/build" --start-maximized
+            npx playwright test ${{ matrix.test }}.yml.spec.js | Out-File -FilePath playwright.log -Encoding utf8
 
             echo "Step 5: Completed"
             exit

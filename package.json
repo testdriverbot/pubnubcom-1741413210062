@@ -4,10 +4,12 @@
     "description": "A Playwright project that runs all spec.js files",
     "main": "index.js",
     "scripts": {
-      "test": "playwright test"
+        "test": "playwright test"
     },
-    "dependencies": {},
+    "dependencies": {
+        "dashcam-chrome": "^0.2.3"
+    },
     "devDependencies": {
-      "@playwright/test": "latest"
+        "@playwright/test": "latest"
     }
-  }
+}

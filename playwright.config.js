@@ -1,12 +1,18 @@
 import { defineConfig } from '@playwright/test';
+import path from 'path';
 
 export default defineConfig({
-  testDir: './tests',
-  testMatch: '**/*.spec.js',
+  testMatch: '*.spec.js',
   reporter: 'list',
-  use: {
-    headless: true,
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
-  }
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        browserName: 'chromium',
+        headless: false, // Runs Playwright in UI mode
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure'
+      }
+    }
+  ]
 });
