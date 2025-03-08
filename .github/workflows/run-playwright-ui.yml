@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   gather-test-files:
-    name: Setup Test Matrix (./testdriver/*.yml)
+    name: Setup Test Matrix (./testdriver/*.yml.spec.js)
     runs-on: ubuntu-latest
     outputs:
       test_files: ${{ steps.test_list.outputs.files }}
@@ -23,7 +23,7 @@ jobs:
       - name: Find all test files and extract filenames
         id: test_list
         run: |
-          FILES=$(ls ./testdriver/*.spec.js)
+          FILES=$(ls ./testdriver/*.yml.spec.js)
           FILENAMES=$(basename -a $FILES)
           FILES_JSON=$(echo "$FILENAMES" | jq -R -s -c 'split("\n")[:-1]')
           echo "::set-output name=files::$FILES_JSON"
