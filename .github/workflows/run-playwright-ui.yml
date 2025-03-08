@@ -101,13 +101,6 @@ jobs:
                 exit 1
             }
 
-            # Ensure log file exists before running Dashcam
-            Write-Output "Checking if log file exists..."
-            if (-not (Test-Path $AbsoluteLogPath)) {
-                Write-Error "Log file does not exist at $AbsoluteLogPath. Creating an empty log file..."
-                New-Item -ItemType File -Path $AbsoluteLogPath -Force | Out-Null
-            }
-
             # Run the dashcam track command with the resolved path
             Write-Output "Running dashcam track command..."
             $DashcamOutputLog = "dashcam_output.log"
