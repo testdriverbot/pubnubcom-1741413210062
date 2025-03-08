@@ -107,7 +107,7 @@ jobs:
             $DashcamOutputLog = "dashcam_output.log"
             $DashcamErrorLog = "dashcam_error.log"
 
-            node C:\Users\testdriver\AppData\Roaming\npm\dashcam track --name=playwright --type=application --pattern="C:\path\to\logfile"
+            node C:\Users\testdriver\AppData\Roaming\npm\dashcam track --name=playwright --type=application --pattern="$AbsoluteLogPath"
 
             # Step 4: Running Playwright tests
             Write-Output "Step 4: Navigating to testdriver directory and running Playwright tests with custom Chromium launch..."
