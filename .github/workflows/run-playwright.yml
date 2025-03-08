@@ -29,4 +29,6 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx playwright test "**/*.spec.js"
+        run: |  
+          cd testdriver
+          npx playwright test 
