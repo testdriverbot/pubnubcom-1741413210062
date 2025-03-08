@@ -68,6 +68,7 @@ jobs:
             # Step 2: Installing Dashcam Chrome extension
             Write-Output "Step 2: Installing Dashcam Chrome extension..."
             npm install dashcam -g
+            where.exe dashcam
             if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Dashcam." }
 
             npm install dashcam-chrome
@@ -106,24 +107,7 @@ jobs:
             $DashcamOutputLog = "dashcam_output.log"
             $DashcamErrorLog = "dashcam_error.log"
 
-            $process = Start-Process -FilePath "dashcam" `
-                -ArgumentList "track --name=playwright --type=application --pattern=`"$AbsoluteLogPath`"" `
-                -NoNewWindow -Wait -PassThru `
-                -RedirectStandardOutput $DashcamOutputLog `
-                -RedirectStandardError $DashcamErrorLog
-
-            if ($process.ExitCode -ne 0) {
-                Write-Error "Dashcam track command failed. Check logs: $DashcamOutputLog, $DashcamErrorLog"
-            } else {
-                Write-Output "Dashcam track command executed successfully."
-            }
-
-            # Debug: Display Dashcam output and errors
-            Write-Output "Dashcam standard output:"
-            Get-Content $DashcamOutputLog
-
-            Write-Output "Dashcam error output (if any):"
-            Get-Content $DashcamErrorLog
+            node C:\Users\testdriver\AppData\Roaming\npm\dashcam track --name=playwright --type=application --pattern="C:\path\to\logfile"
 
             # Step 4: Running Playwright tests
             Write-Output "Step 4: Navigating to testdriver directory and running Playwright tests with custom Chromium launch..."
