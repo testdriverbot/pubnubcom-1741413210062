@@ -59,12 +59,15 @@ jobs:
             echo "Step 1: Installing Playwright globally"
             npm install playwright -g
 
+            echo "Step 2: Installing Dashcam Chrome extension"
+            npm install dashcam-chrome
+
             echo "Step 3: Installing Playwright dependencies"
             playwright install --with-deps chromium
 
-            echo "Step 4: Generating Playwright script"
-            $process = Start-Process -FilePath "npx" -ArgumentList "playwright codegen --target playwright-test -o testdriver/${{ matrix.test }}.spec.js ${{ vars.TESTDRIVER_WEBSITE }}" -PassThru
-            Write-Output "Started Playwright with PID: $($process.Id)"
+            echo "Step 4: Navigating to testdriver directory and running Playwright tests with custom Chromium launch"
+            cd testdriver
+            npx playwright test --ui --browser=chromium --headed --ignore-default-args --disable-extensions --load-extension="$(pwd)/node_modules/dashcam-chrome/build" --start-maximized
 
             echo "Step 5: Completed"
             exit
