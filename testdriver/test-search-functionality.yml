@@ -1,0 +1,27 @@
+version: 4.2.13
+session: 67cbdd83d07e71bfd53a7126
+steps:
+  - prompt: Click on the search icon.
+    commands:
+      - command: hover-image
+        description: search icon in the webpage header
+        action: click
+  - prompt: Type a query into the search bar.
+    commands:
+      - command: hover-text
+        text: Search or ask anything
+        description: search input field
+        action: click
+      - command: type
+        text: real-time interactive apps
+  - prompt: Press enter to initiate the search.
+    commands:
+      - command: press-keys
+        keys:
+          - enter
+  - prompt: >-
+      Assert that search results are displayed relevant to the query.  # Use the
+      content of the file from the environment
+    commands:
+      - command: assert
+        expect: search results contain "real-time interactive apps"
