@@ -48,7 +48,7 @@ jobs:
       
       - uses: testdriverai/action@main
         with:
-          key: ${{ secrets.TESTDRIVER_API_KEY }}
+          key: ${{ secrets.key }}
           prompt: 1. /run testdriver/${{ matrix.test }} 
           create-pr: true
           pr-base: ${{ inputs.base-branch }}
