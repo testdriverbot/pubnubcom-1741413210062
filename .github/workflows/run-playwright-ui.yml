@@ -67,7 +67,7 @@ jobs:
 
             # Step 2: Installing Dashcam Chrome extension
             # Write-Output "Step 2: Installing Dashcam Chrome extension..."
-            # yarn global add dashcam
+            yarn global add dashcam
             # dashcam cli may be installed already?
             where.exe dashcam
             if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Dashcam." }
@@ -108,7 +108,7 @@ jobs:
             $DashcamOutputLog = "dashcam_output.log"
             $DashcamErrorLog = "dashcam_error.log"
 
-            dashcam track --name=playwright --type=application --pattern="$AbsoluteLogPath"
+            C:\Users\testdriver\AppData\Local\Yarn\bin\dashcam track --name=playwright --type=application --pattern="$AbsoluteLogPath"
 
             # Step 4: Running Playwright tests
             Write-Output "Step 4: Navigating to testdriver directory and running Playwright tests with custom Chromium launch..."
