@@ -108,10 +108,12 @@ jobs:
             npx playwright test testdriver/${{ matrix.test }}.yml.spec.js | Out-File -FilePath $PlaywrightLogFile -Encoding utf8
             Write-Output "Playwright test output has been written to: $PlaywrightLogFile"
 
-            Write-Output "pwd ls"
-            pwd
-            ls
+            Write-Output "Current Directory:"
+            Write-Output (Get-Location)
 
+            Write-Output "Directory Contents:"
+            Write-Output (Get-ChildItem)
+            
             if ($LASTEXITCODE -ne 0) { Write-Error "Playwright tests failed. Check $PlaywrightLogFile for details." }
 
             # Step 5: Completion
