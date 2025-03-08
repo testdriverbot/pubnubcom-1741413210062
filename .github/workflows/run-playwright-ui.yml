@@ -56,15 +56,27 @@ jobs:
           pr-branch: testdriver/regression-${{ matrix.markdown }}-${{ github.run_id }}-${{ github.run_attempt }}
           pr-test-filename: ${{matrix.markdown}}.yml
           prerun: |
-            echo "Step 1: Installing Playwright globally"
+            # Enable strict mode to catch errors early
+            Set-StrictMode -Version Latest
+            $ErrorActionPreference = "Stop"
+
+            # Step 1: Installing Playwright globally
+            Write-Output "Step 1: Installing Playwright globally..."
             npm install playwright -g
+            if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Playwright." }
 
-            echo "Step 2: Installing Dashcam Chrome extension"
+            # Step 2: Installing Dashcam Chrome extension
+            Write-Output "Step 2: Installing Dashcam Chrome extension..."
             npm install dashcam -g
-            npm install dashcam-chrome
+            if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Dashcam." }
 
-            echo "Step 3: Installing Playwright dependencies"
+            npm install dashcam-chrome
+            if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Dashcam Chrome extension." }
+
+            # Step 3: Installing Playwright dependencies
+            Write-Output "Step 3: Installing Playwright dependencies..."
             playwright install --with-deps chromium
+            if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Playwright dependencies." }
 
             # Get the current directory
             Write-Output "Getting the current directory..."
@@ -81,18 +93,58 @@ jobs:
             $AbsoluteLogPath = Join-Path -Path $CurrentDir -ChildPath $RelativeLogPath
             Write-Output "Absolute log file path: $AbsoluteLogPath"
 
+            # Validate if Dashcam is installed and in PATH
+            Write-Output "Checking if Dashcam is installed..."
+            $DashcamCommand = Get-Command dashcam -ErrorAction SilentlyContinue
+            if (-not $DashcamCommand) {
+                Write-Error "Dashcam is not found in the system PATH. Please check the installation."
+                exit 1
+            }
+
+            # Ensure log file exists before running Dashcam
+            Write-Output "Checking if log file exists..."
+            if (-not (Test-Path $AbsoluteLogPath)) {
+                Write-Error "Log file does not exist at $AbsoluteLogPath. Creating an empty log file..."
+                New-Item -ItemType File -Path $AbsoluteLogPath -Force | Out-Null
+            }
+
             # Run the dashcam track command with the resolved path
             Write-Output "Running dashcam track command..."
-            & dashcam track --name=playwright --type=application --pattern="$AbsoluteLogPath"
-            Write-Output "dashcam track command executed."
+            $DashcamOutputLog = "dashcam_output.log"
+            $DashcamErrorLog = "dashcam_error.log"
 
+            $process = Start-Process -FilePath "dashcam" `
+                -ArgumentList "track --name=playwright --type=application --pattern=`"$AbsoluteLogPath`"" `
+                -NoNewWindow -Wait -PassThru `
+                -RedirectStandardOutput $DashcamOutputLog `
+                -RedirectStandardError $DashcamErrorLog
 
-            echo "Step 4: Navigating to testdriver directory and running Playwright tests with custom Chromium launch"
-            cd testdriver
-            npx playwright test ${{ matrix.test }}.yml.spec.js | Out-File -FilePath playwright.log -Encoding utf8
+            if ($process.ExitCode -ne 0) {
+                Write-Error "Dashcam track command failed. Check logs: $DashcamOutputLog, $DashcamErrorLog"
+            } else {
+                Write-Output "Dashcam track command executed successfully."
+            }
 
-            echo "Step 5: Completed"
-            exit
+            # Debug: Display Dashcam output and errors
+            Write-Output "Dashcam standard output:"
+            Get-Content $DashcamOutputLog
+
+            Write-Output "Dashcam error output (if any):"
+            Get-Content $DashcamErrorLog
+
+            # Step 4: Running Playwright tests
+            Write-Output "Step 4: Navigating to testdriver directory and running Playwright tests with custom Chromium launch..."
+            Set-Location testdriver
+
+            $PlaywrightLogFile = "playwright.log"
+            npx playwright test ${{ matrix.test }}.yml.spec.js | Out-File -FilePath $PlaywrightLogFile -Encoding utf8
+
+            if ($LASTEXITCODE -ne 0) { Write-Error "Playwright tests failed. Check $PlaywrightLogFile for details." }
+
+            # Step 5: Completion
+            Write-Output "Step 5: Completed."
+            exit 0
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FORCE_COLOR: "3"
