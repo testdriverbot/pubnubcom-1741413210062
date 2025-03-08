@@ -51,8 +51,8 @@ jobs:
           key: ${{ secrets.key }}
           prompt: 1. /run testdriver/${{ matrix.test }} 
           create-pr: true
-          pr-base: ${{ inputs.base-branch }}
-          pr-title: "TestDriver.ai / Generate Test / ${{ matrix.markdown }}"
+          pr-base: main
+          pr-title: "TestDriver.ai / Generate Playwright / ${{ matrix.markdown }}"
           pr-branch: testdriver/regression-${{ matrix.markdown }}-${{ github.run_id }}-${{ github.run_attempt }}
           pr-test-filename: ${{matrix.markdown}}.yml
           prerun: |
