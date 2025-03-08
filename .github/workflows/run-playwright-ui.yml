@@ -62,16 +62,16 @@ jobs:
 
             # Step 1: Installing Playwright globally
             Write-Output "Step 1: Installing Playwright globally..."
-            npm install playwright -g
+            yarn global add playwright
             if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Playwright." }
 
             # Step 2: Installing Dashcam Chrome extension
             Write-Output "Step 2: Installing Dashcam Chrome extension..."
-            npm install dashcam -g
+            yarn global add dashcam
             where.exe dashcam
             if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Dashcam." }
 
-            npm install dashcam-chrome
+            yarn add dashcam-chrome
             if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Dashcam Chrome extension." }
 
             # Step 3: Installing Playwright dependencies
