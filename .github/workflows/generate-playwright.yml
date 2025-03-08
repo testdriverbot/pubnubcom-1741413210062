@@ -1,4 +1,4 @@
-name: TestDriver.ai / Run / Regressions
+name: TestDriver.ai / Generate / Playwright
 
 on:
   workflow_dispatch:
@@ -67,12 +67,6 @@ jobs:
             Write-Output "Started Playwright with PID: $($process.Id)"
 
             echo "Step 5: Completed"
-            exit
-
-            cd $env:TEMP
-            npm init -y
-            npm install dashcam-chrome
-            Start-Process "C:/Program Files/Google/Chrome/Application/chrome.exe" -ArgumentList "--start-maximized", "--load-extension=$(pwd)/node_modules/dashcam-chrome/build", 
             exit
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
