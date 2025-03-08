@@ -102,18 +102,10 @@ jobs:
             Write-Output "Running dashcam track command..."
             C:\Users\testdriver\AppData\Local\Yarn\bin\dashcam track --name=playwright --type=application --pattern="$PlaywrightLogFile"
 
-            # Step 4: Running Playwright tests
-            Write-Output "Step 4: Navigating to testdriver directory and running Playwright tests with custom Chromium launch..."
-            Set-Location testdriver
-
             # Logging before writing to the file
             Write-Output "Writing Playwright test output to: $PlaywrightLogFile"
 
-            # Navigate to the testdriver directory
-            Write-Output "Navigating to testdriver directory"
-            Set-Location -Path (Join-Path -Path $CurrentDir -ChildPath "testdriver")
-
-            npx playwright test ${{ matrix.test }}.yml.spec.js | Out-File -FilePath $PlaywrightLogFile -Encoding utf8
+            npx playwright test testdriver/${{ matrix.test }}.yml.spec.js | Out-File -FilePath $PlaywrightLogFile -Encoding utf8
             Write-Output "Playwright test output has been written to: $PlaywrightLogFile"
 
             if ($LASTEXITCODE -ne 0) { Write-Error "Playwright tests failed. Check $PlaywrightLogFile for details." }
