@@ -66,9 +66,9 @@ jobs:
             if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Playwright." }
 
             # Step 2: Installing Dashcam Chrome extension
-            # Write-Output "Step 2: Installing Dashcam Chrome extension..."
+            Write-Output "Step 2: Installing Dashcam Chrome extension..."
             yarn global add dashcam
-            # dashcam cli may be installed already?
+            # dashcam CLI may be installed already?
             where.exe dashcam
             if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Dashcam." }
 
@@ -85,15 +85,10 @@ jobs:
             $CurrentDir = Get-Location
             Write-Output "Current directory: $CurrentDir"
 
-            # Define the relative path to the log file
-            Write-Output "Defining the relative path to the log file..."
-            $RelativeLogPath = "testdriver/playwright.log"
-            Write-Output "Relative log path: $RelativeLogPath"
-
-            # Combine the current directory with the relative path to get the absolute path
-            Write-Output "Resolving absolute log file path..."
-            $AbsoluteLogPath = Join-Path -Path $CurrentDir -ChildPath $RelativeLogPath
-            Write-Output "Absolute log file path: $AbsoluteLogPath"
+            # Define the Playwright log file path
+            Write-Output "Defining Playwright log file path..."
+            $PlaywrightLogFile = Join-Path -Path $CurrentDir -ChildPath "testdriver/playwright.log"
+            Write-Output "Playwright log file path: $PlaywrightLogFile"
 
             # Validate if Dashcam is installed and in PATH
             Write-Output "Checking if Dashcam is installed..."
@@ -103,19 +98,18 @@ jobs:
                 exit 1
             }
 
-            # Run the dashcam track command with the resolved path
+            # Run the dashcam track command with the resolved Playwright log file path
             Write-Output "Running dashcam track command..."
-            $DashcamOutputLog = "dashcam_output.log"
-            $DashcamErrorLog = "dashcam_error.log"
-
-            C:\Users\testdriver\AppData\Local\Yarn\bin\dashcam track --name=playwright --type=application --pattern="$AbsoluteLogPath"
+            C:\Users\testdriver\AppData\Local\Yarn\bin\dashcam track --name=playwright --type=application --pattern="$PlaywrightLogFile"
 
             # Step 4: Running Playwright tests
             Write-Output "Step 4: Navigating to testdriver directory and running Playwright tests with custom Chromium launch..."
             Set-Location testdriver
 
-            $PlaywrightLogFile = "playwright.log"
+            # Logging before writing to the file
+            Write-Output "Writing Playwright test output to: $PlaywrightLogFile"
             npx playwright test ${{ matrix.test }}.yml.spec.js | Out-File -FilePath $PlaywrightLogFile -Encoding utf8
+            Write-Output "Playwright test output has been written to: $PlaywrightLogFile"
 
             if ($LASTEXITCODE -ne 0) { Write-Error "Playwright tests failed. Check $PlaywrightLogFile for details." }
 
