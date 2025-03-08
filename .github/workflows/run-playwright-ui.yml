@@ -66,8 +66,9 @@ jobs:
             if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Playwright." }
 
             # Step 2: Installing Dashcam Chrome extension
-            Write-Output "Step 2: Installing Dashcam Chrome extension..."
-            yarn global add dashcam
+            # Write-Output "Step 2: Installing Dashcam Chrome extension..."
+            # yarn global add dashcam
+            # dashcam cli may be installed already?
             where.exe dashcam
             if ($LASTEXITCODE -ne 0) { Write-Error "Failed to install Dashcam." }
 
