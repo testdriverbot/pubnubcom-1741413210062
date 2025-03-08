@@ -1,0 +1,13 @@
+{
+    "name": "playwright-project",
+    "version": "1.0.0",
+    "description": "A Playwright project that runs all spec.js files",
+    "main": "index.js",
+    "scripts": {
+      "test": "playwright test"
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "@playwright/test": "latest"
+    }
+  }
