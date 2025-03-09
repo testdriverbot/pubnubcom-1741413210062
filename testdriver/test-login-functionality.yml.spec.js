@@ -6,7 +6,7 @@ test('test', async () => {
   let c = await context();
   const page = await c.newPage(); // ✅ Open a new page from the persistent context
 
-  await page.goto('https://www.pubnub.com/');
+  await page.goto('chrome://extensions');
   await page.getByRole('link', { name: 'Login' }).click();
 
   await page.waitForTimeout(30000);
