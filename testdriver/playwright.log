@@ -1,0 +1,16 @@
+﻿Extension path: C:\actions-runner\_work\testdriver\testdriver\node_modules\dashcam-chrome\build
+User data directory: C:\actions-runner\_work\testdriver\testdriver\testdriver\chrome-user-data
+
+Running 1 test using 1 worker
+
+Extension path: C:\actions-runner\_work\testdriver\testdriver\node_modules\dashcam-chrome\build
+User data directory: C:\actions-runner\_work\testdriver\testdriver\testdriver\chrome-user-data
+  x  1 [chromium] ΓÇ║ testdriver\test-login-functionality.yml.spec.js:4:5 ΓÇ║ test (30.0s)
+
+
+  1) [chromium] ΓÇ║ testdriver\test-login-functionality.yml.spec.js:4:5 ΓÇ║ test ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+  1 failed
+    [chromium] ΓÇ║ testdriver\test-login-functionality.yml.spec.js:4:5 ΓÇ║ test ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
