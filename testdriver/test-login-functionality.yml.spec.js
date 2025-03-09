@@ -9,7 +9,7 @@ test('test', async () => {
   await page.goto('chrome://extensions');
   await page.getByRole('link', { name: 'Login' }).click();
 
-  await page.waitForTimeout(30000);
+  await page.waitForTimeout(10000);
 
   await page.goto('https://admin.pubnub.com/login');
   await page.getByRole('textbox', { name: 'Email*' }).fill('test@example.com');
