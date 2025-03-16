@@ -143,7 +143,7 @@ jobs:
             }
 
             # Run Playwright test
-            npx playwright test $TestFilePath | Out-File -FilePath $PlaywrightLogFile -Encoding utf8
+            npx playwright test $TestFilePath --headed| Out-File -FilePath $PlaywrightLogFile -Encoding utf8
 
             Write-Output "Playwright test output has been written to: $PlaywrightLogFile"
 
