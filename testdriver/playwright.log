@@ -1,0 +1,6 @@
+﻿
+Running 1 test using 1 worker
+
+  ok 1 [chromium] ΓÇ║ testdriver\test-navigation-links.yml.spec.js:3:5 ΓÇ║ test (7.7s)
+
+  1 passed (9.6s)
