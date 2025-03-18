@@ -1,3 +1,2 @@
-2025/03/08-09:14:51.943 3b03 Reusing MANIFEST /Users/ianjennings/Development/playwright-updates/testdriver/chrome-user-data/Default/Session Storage/MANIFEST-000001
-2025/03/08-09:14:51.948 3b03 Recovering log #3
-2025/03/08-09:14:51.948 3b03 Reusing old log /Users/ianjennings/Development/playwright-updates/testdriver/chrome-user-data/Default/Session Storage/000003.log 
+2025/03/08-18:47:48.356 24ec Creating DB C:\actions-runner\_work\testdriver\testdriver\testdriver\chrome-user-data\Default\Session Storage since it was missing.
+2025/03/08-18:47:48.445 24ec Reusing MANIFEST C:\actions-runner\_work\testdriver\testdriver\testdriver\chrome-user-data\Default\Session Storage/MANIFEST-000001
